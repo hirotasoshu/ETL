@@ -7,7 +7,7 @@ repos:
     rev: 3.9.2
     hooks:
     - id: flake8
-      exclude: ^movies_admin/config/settings/
+      exclude: ^postgres_to_es/query.py
 -   repo: https://github.com/timothycrosley/isort
     rev: 5.9.3
     hooks:
@@ -16,4 +16,4 @@ repos:
     rev: v0.910
     hooks:
     - id: mypy
-    args: [--strict]
+      args: [--strict]
