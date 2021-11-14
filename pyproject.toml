@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "etl"
+version = "0.1.0"
+description = ""
+authors = ["Maksim Zayakin <rasetsuq@yandex.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+psycopg2-binary = "^2.9.2"
+backoff = "^1.11.1"
+elasticsearch = "^7.15.2"
+pydantic = "^1.8.2"
+redis = "^3.5.3"
+
+[tool.poetry.dev-dependencies]
+isort = "^5.10.1"
+black = "^21.10b0"
+mypy = "^0.910"
+pre-commit = "^2.15.0"
+flake8 = "^4.0.1"
+types-redis = "^3.5.16"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+exclude = '''
+/(
+	\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build
+| docker
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+python_version = "3.9"
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unreachable = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+strict_optional = true
+strict_equality = true
+implicit_reexport = false
+show_error_context = true
+pretty = true
+show_traceback = true
+scripts_are_modules = true
+ignore_missing_imports = true
+
+[tool.pyright]
+executionEnvironments = [{root = "postgres_to_es"}]
