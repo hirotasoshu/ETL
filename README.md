@@ -25,3 +25,8 @@ $ make down
 ```console
 $ make destroy
 ```
+
+4. Открыть ETL логи
+```console
+$ make etl-logs
+```

@@ -9,3 +9,6 @@ down:
 
 destroy:
 	docker-compose down -v
+
+etl-logs:
+	docker-compose logs -f etl
