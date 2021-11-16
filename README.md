@@ -2,6 +2,9 @@
 
 Написать отказоустойчивый перенос данных из Postgres в Elasticsearch
 
+# Пример работы
+![example](images/working_example.png)
+
 # Dev зависимости
 1. Установить dev зависимости и создать .env файл на основе .env.template:
 ```console
