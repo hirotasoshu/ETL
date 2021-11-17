@@ -2,12 +2,11 @@ import logging
 import time
 from datetime import datetime
 
+# isort: off
 from elastic_loader import ElasticLoader
 from postgres_extractor import PostgresExtractor
 from query import get_query
 from state import RedisState
-
-# Пробел между импортами тут ставит isort, ничего не поделать
 from config import (
     APP_CONFIG,
     ELASTIC_CONFIG,
@@ -16,6 +15,7 @@ from config import (
     REDIS_CONFIG,
 )
 
+# isort: on
 state = RedisState(config=REDIS_CONFIG)
 postgres_extractor = PostgresExtractor(dsn=POSTGRES_DSN)
 elastic_loader = ElasticLoader(config=ELASTIC_CONFIG, state=state)
