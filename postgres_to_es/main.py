@@ -35,7 +35,7 @@ def etl(query: str, index: str) -> None:
 
     В папке images лежит скриншот, показывающий, что за раз в elastic загружается не константное кол-во данных
     """
-    data_generator = postgres_extractor.extract_data(query, itersize)
+    data_generator = postgres_extractor.extract_data(index, query, itersize)
     elastic_loader.upload_data(data_generator, itersize, index)
 
 
@@ -50,10 +50,11 @@ if __name__ == "__main__":
 
             try:
                 query = get_query_by_index(index, load_from)
+                etl(query, index)
+
             except ValueError as e:
-                logger.error("Error: %s", e)
+                logger.error("Skipping index %s: %s", index, e)
                 continue
 
-            etl(query, index)
         logger.info("Sleep for %s seconds", freq)
         time.sleep(freq)

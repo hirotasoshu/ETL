@@ -36,7 +36,9 @@ class PostgresExtractor:
         return psycopg2.connect(**self._dsn.dict(), cursor_factory=DictCursor)
 
     @backoff.on_exception(**BACKOFF_CONFIG)
-    def extract_data(self, query: str, itersize: int) -> Iterator[Tuple[dict, str]]:
+    def _extract_movies_data(
+        self, query: str, itersize: int
+    ) -> Iterator[Tuple[dict, str]]:
         """Возвращает итератор данных в нужном формате для ES"""
         cur = self.postgres_connection.cursor()
         cur.itersize = itersize
@@ -44,3 +46,13 @@ class PostgresExtractor:
 
         for row in cur:
             yield MoviesES(**row).dict(), str(row["updated_at"])
+
+    def extract_data(
+        self, index: str, query: str, itersize: int
+    ) -> Iterator[Tuple[dict, str]]:
+        if index == "movies":
+            return self._extract_movies_data(query, itersize)
+
+        # Так можно добавить другие индексы
+
+        raise ValueError(f"No extract process for index {index}")
