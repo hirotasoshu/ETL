@@ -84,3 +84,4 @@ postgres_to_es/technote.md
 dmypy.json
 
 .pre-commit-config.yaml
+images
