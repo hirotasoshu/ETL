@@ -57,7 +57,9 @@ class ElasticLoader:
             if i % itersize == 0:
                 self._state.set_key("load_from", last_updated_at)
 
-        self._state.set_key("load_from", last_updated_at)
+        # Записываем в стейт только если у нас были какие-то записи
+        if last_updated_at:
+            self._state.set_key("load_from", last_updated_at)
 
     @backoff.on_exception(**BACKOFF_CONFIG)
     def upload_data(self, data: Iterator[Tuple[dict, str]], itersize: int) -> None:
