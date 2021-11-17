@@ -43,6 +43,7 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
+known_first_party = ["config", "elastic_loader", "models", "postgres_extractor", "query", "state"]
 
 [tool.mypy]
 python_version = "3.9"

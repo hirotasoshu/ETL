@@ -2,11 +2,11 @@ from typing import Iterator, Optional, Tuple
 
 import backoff
 import psycopg2
-from models import MoviesES
 from psycopg2.extensions import connection as pg_conn
 from psycopg2.extras import DictCursor
 
 from config import BACKOFF_CONFIG, PostgresDsn
+from models import MoviesES
 
 
 class PostgresExtractor:

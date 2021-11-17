@@ -4,9 +4,9 @@ from typing import Iterator, Optional, Tuple
 
 import backoff
 from elasticsearch import Elasticsearch, helpers
-from state import State
 
 from config import BACKOFF_CONFIG, ElasticConfig
+from state import State
 
 logger = logging.getLogger(__name__)
 
