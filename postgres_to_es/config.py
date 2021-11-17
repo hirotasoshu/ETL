@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 import backoff
 from pydantic import BaseSettings, Field
@@ -18,7 +19,6 @@ class PostgresDsn(BaseSettings):
 class ElasticConfig(BaseSettings):
     host: str = Field(..., env="ELASTICSEARCH_HOST")
     port: int = Field(..., env="ELASTICSEARCH_PORT")
-    index: str = Field(..., env="ELASTICSEARCH_INDEX")
 
 
 class RedisConfig(BaseSettings):
@@ -30,6 +30,7 @@ class AppConfig(BaseSettings):
     batch_size: int = Field(..., env="BATCH_SIZE")
     frequency: int = Field(..., env="FREQUENCY")
     backoff_max_retries: int = Field(..., env="BACKOFF_MAX_RETRIES")
+    elastic_indexes: List[str] = Field(..., env="ELASTICSEARCH_INDEXES")
 
 
 POSTGRES_DSN = PostgresDsn()

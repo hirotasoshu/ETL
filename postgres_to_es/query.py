@@ -1,14 +1,12 @@
 from typing import Optional
 
 
-def get_query(load_from: Optional[str]) -> str:
+def get_movies_query(load_from: Optional[str]) -> str:
     """
-    Формирует sql запрос с подставленной временной меткой
+    Формирует sql запрос с подставленной временной меткой для индекса movies
     """
     if not load_from:
-        raise ValueError(
-            "Для получения sql запроса нужна временная метка, сконвертированная в строку"
-        )
+        raise ValueError("For getting sql query datetime string required")
 
     return f"""
 SELECT film.id,
@@ -32,3 +30,14 @@ WHERE
 GROUP BY film.id
 ORDER BY GREATEST(film.updated_at, MAX(person.updated_at), MAX(genre.updated_at)) ASC
     """
+
+
+def get_query_by_index(index: str, load_from: Optional[str]) -> str:
+    """Формирует нужный sql запрос в зависимости от индекса"""
+
+    if index == "movies":
+        return get_movies_query(load_from)
+
+    # можно добавить таким образом остальные индексы
+
+    raise ValueError(f"No query for index {index}")

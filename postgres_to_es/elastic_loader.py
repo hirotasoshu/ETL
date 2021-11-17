@@ -37,7 +37,7 @@ class ElasticLoader:
 
     @backoff.on_exception(**BACKOFF_CONFIG)
     def _generate_docs(
-        self, data: Iterator[Tuple[dict, str]], itersize: int
+        self, data: Iterator[Tuple[dict, str]], itersize: int, index: str
     ) -> Iterator[dict]:
         """
         Возвращает итератор документов для ES.
@@ -48,6 +48,8 @@ class ElasticLoader:
         i = 0
         last_updated_at = ""
 
+        key = f"load_from_{index}"
+
         for movie, updated_at in data:
             i += 1
             last_updated_at = updated_at
@@ -55,29 +57,31 @@ class ElasticLoader:
             yield movie
 
             if i % itersize == 0:
-                self._state.set_key("load_from", last_updated_at)
+                self._state.set_key(key, last_updated_at)
 
         # Записываем в стейт только если у нас были какие-то записи
         if last_updated_at:
-            self._state.set_key("load_from", last_updated_at)
+            self._state.set_key(key, last_updated_at)
 
     @backoff.on_exception(**BACKOFF_CONFIG)
-    def upload_data(self, data: Iterator[Tuple[dict, str]], itersize: int) -> None:
+    def upload_data(
+        self, data: Iterator[Tuple[dict, str]], itersize: int, index: str
+    ) -> None:
         """Загружает данные в ES используя итератор"""
         t = time.perf_counter()
 
-        docs_generator = self._generate_docs(data, itersize)
+        docs_generator = self._generate_docs(data, itersize, index)
 
         lines, _ = helpers.bulk(
             client=self.elastic_connection,
             actions=docs_generator,
-            index=self._config.index,
+            index=index,
             chunk_size=itersize,
         )
 
         elapsed = time.perf_counter() - t
 
         if lines == 0:
-            logger.info("Nothing to update")
+            logger.info("Nothing to update for index %s", index)
         else:
-            logger.info("%s lines saved in %s", lines, elapsed)
+            logger.info("%s lines saved in %s for index %s", lines, elapsed, index)
