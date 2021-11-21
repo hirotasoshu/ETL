@@ -1,0 +1,27 @@
+name: Build and push etl and custom es
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: dump-env
+        run: cp config/.env.template config/.env
+
+      - name: Build docker-compose stack
+        run: docker-compose -f docker-compose.yml build
+
+      - name: List images
+        run: docker images
+
+      - name: Push images
+        run: docker-compose -f docker-compose.yml push --ignore-push-failures
