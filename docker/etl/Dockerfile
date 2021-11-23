@@ -3,6 +3,7 @@
 
 FROM python:3.9.7-slim-buster AS builder
 
+LABEL org.opencontainers.image.description ETL_ADMIN_SPRINT_DOCKERFILE
 LABEL maintainer="rasetsuq@yandex.ru"
 
   # build:

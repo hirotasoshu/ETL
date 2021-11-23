@@ -1,6 +1,7 @@
 FROM elasticsearch:7.10.1 AS builder
 
 LABEL maintainer="rasetsuq@yandex.ru"
+LABEL org.opencontainers.image.description ELASTIC_ADMIN_SPRINT_DOCKERFILE
 
 ARG DISCOVERY_TYPE
 ENV "discovery.type"=${DISCOVERY_TYPE}
