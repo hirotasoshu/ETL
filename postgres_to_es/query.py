@@ -5,8 +5,6 @@ def get_movies_query(load_from: Optional[str]) -> str:
     """
     Формирует sql запрос с подставленной временной меткой для индекса movies
     """
-    if not load_from:
-        raise ValueError("For getting sql query datetime string required")
 
     return f"""
 SELECT film.id,
@@ -32,11 +30,41 @@ ORDER BY GREATEST(film.updated_at, MAX(person.updated_at), MAX(genre.updated_at)
     """
 
 
+def get_genres_query(load_from: Optional[str]) -> str:
+    """
+    Формирует sql запрос с подставленной временной меткой для индекса genres
+    """
+
+    return f"""
+SELECT genre.id,
+    genre.name,
+    genre.updated_at
+FROM content.genre genre
+WHERE
+    genre.updated_at > '{load_from}'
+GROUP BY genre.id
+ORDER BY genre.updated_at ASC
+    """
+
+
+def get_persons_query(load_from: Optional[str]) -> str:
+    """
+    Формирует sql запрос с подставленной временной меткой для индекса persons
+    """
+    ...
+
+
 def get_query_by_index(index: str, load_from: Optional[str]) -> str:
     """Формирует нужный sql запрос в зависимости от индекса"""
 
-    if index == "movies":
+    if not load_from:
+        raise ValueError("For getting sql query datetime string required")
+
+    elif index == "movies":
         return get_movies_query(load_from)
+
+    elif index == "genres":
+        return get_genres_query(load_from)
 
     # можно добавить таким образом остальные индексы
 
