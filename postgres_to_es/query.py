@@ -11,12 +11,12 @@ def get_movies_query(load_from: Optional[str]) -> str:
     return f"""
 SELECT film.id,
     film.rating AS imdb_rating,
-    STRING_AGG(DISTINCT genre.name, ' ') AS genre,
     film.title,
     film.description,
-    ARRAY_AGG(DISTINCT person.full_name) FILTER (WHERE person_film.role = 'director') AS director,
-    ARRAY_AGG(DISTINCT person.full_name) FILTER (WHERE person_film.role = 'actor') AS actors_names,
-    ARRAY_AGG(DISTINCT person.full_name) FILTER (WHERE person_film.role = 'writer') AS writers_names,
+    film.file_path,
+    film.type,
+    ARRAY_AGG(DISTINCT jsonb_build_object('id', genre.id, 'name', genre.name)) AS genres,
+    ARRAY_AGG(DISTINCT jsonb_build_object('id', person.id, 'name', person.full_name)) FILTER (WHERE person_film.role = 'director') AS directors,
     ARRAY_AGG(DISTINCT jsonb_build_object('id', person.id, 'name', person.full_name)) FILTER (WHERE person_film.role = 'actor') AS actors,
     ARRAY_AGG(DISTINCT jsonb_build_object('id', person.id, 'name', person.full_name)) FILTER (WHERE person_film.role = 'writer') AS writers,
     GREATEST(film.updated_at, MAX(person.updated_at), MAX(genre.updated_at)) AS updated_at
