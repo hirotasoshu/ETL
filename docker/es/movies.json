@@ -51,9 +51,6 @@
       "type": {
         "type": "keyword"
       },
-      "genre": {
-        "type": "keyword"
-      },
       "genres": {
         "type": "nested",
         "dynamic": "strict",
@@ -77,18 +74,6 @@
         }
       },
       "description": {
-        "type": "text",
-        "analyzer": "ru_en"
-      },
-      "directors_names": {
-        "type": "text",
-        "analyzer": "ru_en"
-      },
-      "actors_names": {
-        "type": "text",
-        "analyzer": "ru_en"
-      },
-      "writers_names": {
         "type": "text",
         "analyzer": "ru_en"
       },
