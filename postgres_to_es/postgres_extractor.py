@@ -45,7 +45,11 @@ class PostgresExtractor:
         cur.execute(query)
 
         for row in cur:
-            yield MoviesES(**row).dict(), str(row["updated_at"])
+            movie = MoviesES(**row).dict()
+            # NOTE: костыль, чтобы айди в ES и PG совпадали
+            # и работал поиск по id из пг
+            movie["_id"] = movie["id"]
+            yield movie, str(row["updated_at"])
 
     def extract_data(
         self, index: str, query: str, itersize: int
