@@ -28,8 +28,7 @@ class GenresES(AbstractModel):
     name: str
 
 
-class PersonsES(AbstractModel):
-    name: str
+class PersonsES(PersonInFilm):
     role: Optional[List[PersonType]] = None
     film_ids: Optional[List[UUID]] = None
 
