@@ -29,7 +29,7 @@ class GenresES(AbstractModel):
 
 
 class PersonsES(AbstractModel):
-    full_name: str
+    name: str
     role: Optional[List[PersonType]] = None
     film_ids: Optional[List[UUID]] = None
 
