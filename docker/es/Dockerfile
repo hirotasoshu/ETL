@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.description ELASTIC_ADMIN_SPRINT_DOCKERFILE
 ARG DISCOVERY_TYPE
 ENV "discovery.type"=${DISCOVERY_TYPE}
 
-ADD preload.sh /
+ADD preload.sh genres.json persons.json movies.json /
 
 RUN chmod +x '/preload.sh' \
     && /usr/local/bin/docker-entrypoint.sh elasticsearch -d -E path.data=/tmp/data \

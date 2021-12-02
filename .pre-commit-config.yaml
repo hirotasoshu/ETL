@@ -12,10 +12,3 @@ repos:
     rev: 5.9.3
     hooks:
     - id: isort
--   repo: local
-    hooks:
-      - id: system
-        name: MyPy
-        entry: poetry run mypy . --no-incremental --cache-dir=/dev/null
-        pass_filenames: false
-        language: system
