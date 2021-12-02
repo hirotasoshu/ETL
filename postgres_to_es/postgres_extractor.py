@@ -6,7 +6,7 @@ from psycopg2.extensions import connection as pg_conn
 from psycopg2.extras import DictCursor
 
 from config import BACKOFF_CONFIG, PostgresDsn
-from models import AbstractModel, GenresES, MoviesES
+from models import AbstractModel, GenresES, MoviesES, PersonsES
 
 
 class PostgresExtractor:
@@ -62,6 +62,9 @@ class PostgresExtractor:
 
         elif index == "genres":
             model = GenresES
+
+        elif index == "persons":
+            model = PersonsES
 
         # Так можно добавить другие индексы
 
